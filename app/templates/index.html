@@ -25,7 +25,6 @@
                   <option value="2021">2021</option>
                 </select>
                 <div id="month-buttons" class="btn-group btn-group-toggle" role="group" aria-label="Months">
-                  <button class="btn secondary" disabled>Search:</button>
                   <button id="any-mo" class="btn btn-success btn-month">Any Month</button>
                   <button class="btn btn-primary btn-month" rel="01">Jan</button>
                   <button class="btn btn-primary btn-month" rel="02">Feb</button>
@@ -45,15 +44,15 @@
             <div class="col-sm-6">
                 <span>Must include: </span>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="temperatureBox" value="option1">
+                      <input class="form-check-input sensor-filter" type="checkbox" id="temperatureBox" value="option1">
                       <label class="form-check-label" for="inlineCheckbox1">Temperature</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="phBox" value="option2">
+                      <input class="form-check-input sensor-filter" type="checkbox" id="phBox" value="option2">
                       <label class="form-check-label" for="inlineCheckbox2">pH</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="rainfallBox" value="option3">
+                      <input class="form-check-input sensor-filter" type="checkbox" id="rainfallBox" value="option3">
                       <label class="form-check-label" for="inlineCheckbox3">Rainfall</label>
                     </div>
             </div>
@@ -125,6 +124,9 @@
               table.columns(0).search('^' + year + '-' + month, true).draw();
           });
           $('#year-select').change(function () {
+              $('#any-mo').click();
+          });
+          $('.sensor-filter').change(function () {
               $('#any-mo').click();
           });
 

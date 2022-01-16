@@ -1,4 +1,86 @@
 # Farm data exercise
+
+## Quickstart
+
+* git pull \<this project>
+* cd \<project root>
+* chmod +x runner.sh
+* ./runner.sh
+
+## Implementation
+
+### "Stuff to do"
+
+| Spec                   | Status   | Description                                                                               |
+| :----                  | :------  | :-----------                                                                              |
+| Good Readme            | Complete | This is it.                                                                               |
+| Git History            | Partial  | This project was rushed, so there's isn't bunch beyond what was initially thrown together.
+| Tests                  | None     |
+| Get features completed | Partial  | Test, graphing, and some validation are missing.
+| Writing good code      | Partial  | Some kludge hasn't been cleaned up.
+
+### Backend / Database
+
+With "real database use" being preferred and user login/management listed as
+"nice to have", Django seemed like a good choice, as the framework was designed with
+these in mind.
+
+Having said that, this project uses SQLite3, the default database on Django. Given that
+our app is very simple and (probably) a typical use-case mainly requires fast read
+operations, a more advanced database like PostgreSQL would most likely be overkill.
+
+| Spec                             | Status          | Description                                                                   |
+| :----                            | :------         | :-----------                                                                  |
+| CSV parsing and validation       | Complete        | importer.py, automatically run by the launcher, handles this.
+| Endpoints… (by month, by metric) | Complete        | SelectReportViewSet in views.py, available at /api/selectreports/?with=params
+| Aggregate… statistical analysis  | Complete        | As above.
+| Add tests                        | Not implemented |
+| Input and output validation      | Partial         | CSV importer does validate inputs.
+
+### Frontend
+
+The frontend uses [DataTables](https://datatables.net/), as it is well-suited for the
+task at hand and has an
+[integration](https://github.com/izimobil/django-rest-framework-datatables) with
+[Django REST framework](https://www.django-rest-framework.org/).
+
+| Spec                      | Status          | Description                                                                   |
+| :----                     | :------         | :-----------                                                                  |
+| Show data in table format | Complete        | Handled by Datatables, available at /
+| Add filtering options     | Complete        | Table is filterable by year/month/sensor readinds.
+| Add tests                 | Not implemented |
+| Show data in graphs       | Not implemented | Highcharts supports irregular time interval line graphs with multiple series.
+
+### "Nice to have"
+
+| Spec                                 | Status          | Description                                                           |
+| :----                                | :------         | :-----------                                                          |
+| Endpoints… new data                  | Not implemented |
+| Add User management                  | Partial         | Possible via Django admin, but users and permissions were not set up.
+| Running backend in Docker            | Not implemented |
+| Running backend in Cloud             | Not implemented |
+| Add a map                            | Not implemented |
+| Add E2E tests                        | Not implemented |
+| Add UI for adding data…              | Partial         | Possible for admin via Django Admin
+| Add User login for data manipulation | Not implemented |
+
+## Thoughts
+
+Unfortunately, I did not have time to finish the application, and a lot of the key
+features mentioned in the specifications are simply not implemented, most importantly
+tests. Given that I knew I was short on time, this was a conscious choice, though. I
+wanted to prioritize getting to a point where the application could perhaps be described
+as a "working demo" - where the user (reviewer) would be able to click on buttons and
+see the application functioning (or, conversely, so I could demonstrate how an imaginary
+user might use the application in practice).
+
+Finally, I will try to argue here that given the choice of Django and DRF, this
+application would be quite straightforward to extend to include features like user
+management, permissions for data manipulation end points, etc.
+
+
+## Original task
+
 Solita has received an interesting project offer to create a UI and a backend for displaying data from different farms.
 
 Data has been received from the next farms:

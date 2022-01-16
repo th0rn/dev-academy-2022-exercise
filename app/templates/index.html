@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Farm Sensor Reporting Data</title>
+  <meta name="description" content="Data from farms.">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css"/> -->
+  <!-- Date picker, required by Search Builder -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css"/> -->
+  <!-- Search Builder extension -->
+  <!-- <link rel="stylesheet" href="SearchBuilder-1.3.0/css/searchBuilder.bootstrap4.min.css"/> -->
+</head>
+
+<body>
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Farm Reports</a>
+    </li>
+  </ul>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group">
+                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Year</label>
+                <select class="custom-select mr-sm-2" id="year-select">
+                  <option selected>Any Year</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                </select>
+                <div id="month-buttons" class="btn-group btn-group-toggle" role="group" aria-label="Months">
+                  <button class="btn secondary" disabled>Search:</button>
+                  <button id="any-mo" class="btn btn-success btn-month">Any Month</button>
+                  <button class="btn btn-primary btn-month" rel="01">Jan</button>
+                  <button class="btn btn-primary btn-month" rel="02">Feb</button>
+                  <button class="btn btn-primary btn-month" rel="03">Mar</button>
+                  <button class="btn btn-primary btn-month" rel="04">Apr</button>
+                  <button class="btn btn-primary btn-month" rel="05">May</button>
+                  <button class="btn btn-primary btn-month" rel="06">Jun</button>
+                  <button class="btn btn-primary btn-month" rel="07">Jul</button>
+                  <button class="btn btn-primary btn-month" rel="08">Aug</button>
+                  <button class="btn btn-primary btn-month" rel="09">Sep</button>
+                  <button class="btn btn-primary btn-month" rel="10">Oct</button>
+                  <button class="btn btn-primary btn-month" rel="11">Nov</button>
+                  <button class="btn btn-primary btn-month" rel="12">Dec</button>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <span>Must include: </span>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="temperatureBox" value="option1">
+                      <label class="form-check-label" for="inlineCheckbox1">Temperature</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="phBox" value="option2">
+                      <label class="form-check-label" for="inlineCheckbox2">pH</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="rainfallBox" value="option3">
+                      <label class="form-check-label" for="inlineCheckbox3">Rainfall</label>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="farmreports" class="table-sm table-striped table-bordered" style="width:100%"
+            data-server-side="true" data-ajax="/api/farmreports/?format=datatables">
+          <thead>
+            <tr>
+              <!-- <th data-data="date">Date</th> -->
+              <!-- <th data-data="farm_name" data-name="farm_name">Farm</th> -->
+              <!-- <th data-data="temperature_temperature" data-name="temperature.temperature">Temperature</th> -->
+              <!-- <th data-data="ph_ph" data-name="ph.ph">pH</th> -->
+              <!-- <th data-data="rainfall_rainfall" data-name="rainfall.rainfall">Rainfall</th> -->
+              <th>Date</th>
+              <th>Farm</th>
+              <th>Temperature</th>
+              <th>pH</th>
+              <th>Rainfall</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+                  <!-- <script src="//code.jquery.com/jquery-1.12.4.js"></script> -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+                       <!-- <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+                       <!-- <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.3.0/js/dataTables.searchBuilder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.3.0/js/searchBuilder.bootstrap4.min.js"></script>
+
+  <script>
+      $(document).ready(function() {
+          var table = $('#farmreports').DataTable({
+              "serverSide": true,
+              "ajax": "/api/farmreports/?format=datatables",
+              "columns": [
+                  // Using dot notation to reference nested serializers.
+                  {"data": "date",
+                   render: function ( data, type, row ) {
+                       var dateSplit = data.split(/[-:\.\+T]/);
+                       return type === "display" || type === "filter" ?
+                           dateSplit[2] +'.'+ dateSplit[1] +'.'+ dateSplit[0]
+                                 + ' ' + dateSplit[3] + ':' + dateSplit[4] : data;
+                      },
+                  },
+                  {"data": "farm", "name": "farm.name"},
+                  // {"data": "temperature.temperature", "name": "temperature.temperature", defaultContent: "-"},
+                  {"data": "temperature", "name": "temperature.temperature", defaultContent: "-"},
+                  {"data": "ph", "name": "ph.ph", defaultContent: "-"},
+                  {"data": "rainfall", "name": "rainfall.rainfall", defaultContent: "-"},
+              ]
+          });
+          $('.btn-month').on('click', function() {
+              table.columns().search('');
+              var month = $(this).attr('rel');
+              var year = $("#year-select").children("option:selected").val();
+              if (isNaN(month) && isNaN(year)) {
+                  table.draw();
+              } else {
+                  if (isNaN(month)) {
+                    month = '[0-9][0-9]';
+                  }
+                  if (isNaN(year)) {
+                    year = '[0-9][0-9][0-9][0-9]';
+                  }
+                  if (temperatureBox.checked) {
+                      table.columns(2).search('\.', true).draw();
+                  }
+                  if (phBox.checked) {
+                      table.columns(3).search('\.', true).draw();
+                  }
+                  if (rainfallBox.checked) {
+                      table.columns(4).search('\.', true).draw();
+                  }
+                  table.columns(0).search('^' + year + '-' + month, true).draw();
+                  }
+          });
+          $('#year-select').change(function () {
+              <!-- var selected = $(this).children("option:selected").val(); -->
+              <!-- var month = $('#month-buttons').children("option:checked").attr('rel'); -->
+              $('#any-mo').click();
+          });
+
+      });
+  </script>
+</body>
+</html>

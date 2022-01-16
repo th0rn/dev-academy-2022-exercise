@@ -1,0 +1,20 @@
+- model: core.farm
+  pk: 1
+  fields:
+      name: Noora's farm
+      input_file: Nooras_farm.csv
+- model: core.farm
+  pk: 2
+  fields:
+      name: Friman Metsola Collective
+      input_file: friman_metsola.csv
+- model: core.farm
+  pk: 3
+  fields:
+      name: Organic Ossi's Impact That Lasts plantation
+      input_file: ossi_farm.csv
+- model: core.farm
+  pk: 4
+  fields:
+      name: PartialTech Research Farm
+      input_file: PartialTech.csv

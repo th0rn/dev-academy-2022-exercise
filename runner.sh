@@ -25,21 +25,22 @@ fi
 source env/bin/activate
 pip install -r requirements.txt
 
-# When running interactively, ask whether to (re-)import data from CSV files or not.
-if [[ $- == *i* ]]; then
-    # TODO: this.
-    true
+# Ask whether to (re-)import data from CSV files or not. If we'd deploy this, this would
+# have to be handled another way, like with a flag.
+echo -n "Import data from CSV-files? [Y/n]? "
+read -r answer
+if [[ ${answer} != "${answer#[Nn]}" ]]; then
+    import=0
 else
-    # import=1
-    true
+    import=1
 fi
-import=1
+
+if ! cd app; then
+    echo 'Fatal: app directory missing or inaccessible.'
+    exit 1
+fi
 
 if ((import==1)); then
-    if ! cd app; then
-        echo 'Fatal: app directory missing or inaccessible.'
-        exit 1
-    fi
     # --run-syncdb to prevent errors caused by missing database tables when importing views.
     python manage.py migrate --run-syncdb
     python manage.py loaddata fixtures/farm_info.yaml

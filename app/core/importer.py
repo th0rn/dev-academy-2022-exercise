@@ -84,6 +84,8 @@ def import_csv(farm_id, filepath):
 
 def import_all():
     """ Imports all the data from all the CSV files. """
+    farms = Farm.objects.all()
+    print(f'Importing data for {len(farms)} farms.')
     for farm in Farm.objects.all():
         print(farm.input_file)
         filename = farm.input_file

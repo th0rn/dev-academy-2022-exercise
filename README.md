@@ -7,6 +7,10 @@
 * chmod +x runner.sh
 * ./runner.sh
 
+Browsable table: http://localhost:8000/
+
+(Browsable) API example: http://localhost:8000/api/selectreports/?month=10&page=8&ph=yes
+
 ## Implementation
 
 ### "Stuff to do"

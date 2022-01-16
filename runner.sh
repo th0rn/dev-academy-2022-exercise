@@ -35,6 +35,9 @@ else
 fi
 import=1
 
+# --run-syncdb to prevent errors caused by missing database tables when importing views.
+python manage.py migrate --run-syncdb
+
 if ((import==1)); then
     if ! cd app; then
         echo 'Fatal: app directory missing or inaccessible.'

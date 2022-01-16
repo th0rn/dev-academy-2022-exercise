@@ -107,26 +107,22 @@
               table.columns().search('');
               var month = $(this).attr('rel');
               var year = $("#year-select").children("option:selected").val();
-              if (isNaN(month) && isNaN(year)) {
-                  table.draw();
-              } else {
-                  if (isNaN(month)) {
-                    month = '[0-9][0-9]';
-                  }
-                  if (isNaN(year)) {
-                    year = '[0-9][0-9][0-9][0-9]';
-                  }
-                  if (temperatureBox.checked) {
-                      table.columns(2).search('\.', true).draw();
-                  }
-                  if (phBox.checked) {
-                      table.columns(3).search('\.', true).draw();
-                  }
-                  if (rainfallBox.checked) {
-                      table.columns(4).search('\.', true).draw();
-                  }
-                  table.columns(0).search('^' + year + '-' + month, true).draw();
-                  }
+              if (isNaN(month)) {
+                month = '[0-9][0-9]';
+              }
+              if (isNaN(year)) {
+                year = '[0-9][0-9][0-9][0-9]';
+              }
+              if (temperatureBox.checked) {
+                  table.columns(2).search('\.', true).draw();
+              }
+              if (phBox.checked) {
+                  table.columns(3).search('\.', true).draw();
+              }
+              if (rainfallBox.checked) {
+                  table.columns(4).search('\.', true).draw();
+              }
+              table.columns(0).search('^' + year + '-' + month, true).draw();
           });
           $('#year-select').change(function () {
               $('#any-mo').click();
